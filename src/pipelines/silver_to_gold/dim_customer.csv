@@ -1,0 +1,54 @@
+customer_id,customer_name,customer_type,billing_city,billing_state,billing_country,phone,website,industry,number_of_employees,description
+001a3003638ZnyWAAS,ACME (SAMPLE),Prospect,New York,NY,USA,1 (800) 667-6389,,Manufacturing,680.0,
+001a3003638e07YAAQ,GLOBAL MEDIA (SAMPLE),Prospect,Toronto,Ontario,Canada,1 (800) 667-6389,,Media,14668.0,"GBM is the worldwide leader in technology news and information on the Web and the producer of the longest-running and farthest-reaching television shows about technology. GBM's network of sites combines breakthrough interactive technology with engaging content and design and is consistently ranked as the Internet's leading content network in terms of both audience size and revenue, serving millions of users each day."
+001a3003638iCGaAAM,SALESFORCE.COM (SAMPLE),Customer,San Francisco,CA,USA,1 (800) 667-6389,http://www.salesforce.com,Technology,,"Salesforce.com is the enterprise cloud computing leader. Our social and mobile cloud technologies—including our flagship sales and CRM applications—help companies connect with customers, partners, and employees in entirely new ways."
+001a3003WNGVdmGAYT,SMART OUTLET PVT LTD 50,Customer - Channel,Pune,Maharashtra,India,9846181180,https://smartoutlet50.com,Retail,,Consumer electronics retail customer
+001a3003WNGRRdEAYX,GLOBAL ENTERPRISES PVT LTD 49,Customer - Channel,Kolkata,West Bengal,India,9876516212,https://globalenterprises49.com,Retail,,Consumer electronics retail customer
+001a3003WNGNFUCAY5,URBAN BAZAAR PVT LTD 48,Customer - Channel,Mumbai,Maharashtra,India,9855079392,https://urbanbazaar48.com,Retail,,Wholesale retail chain customer
+001a3003WNGJ3LAAY1,PRIME SUPERMARKET PVT LTD 47,Customer - Channel,Pune,Maharashtra,India,9892529949,https://primesupermarket47.com,Retail,,Consumer electronics retail customer
+001a3003WNGErC8AYL,MODERN SUPERMARKET PVT LTD 46,Customer - Channel,Jaipur,Rajasthan,India,9862269941,https://modernsupermarket46.com,Retail,,Regional supermarket customer
+001a3003WNGAf36AYD,URBAN WHOLESALE PVT LTD 45,Customer - Channel,Delhi,Delhi,India,9839213062,https://urbanwholesale45.com,Retail,,Wholesale retail chain customer
+001a3003WNG6Su4AYF,PRIME STORES PVT LTD 44,Customer - Channel,Jaipur,Rajasthan,India,9828549449,https://primestores44.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNG2Gl2AYF,ROYAL RETAIL PVT LTD 43,Customer - Direct,Lucknow,Uttar Pradesh,India,9896619727,https://royalretail43.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNFy4c0AYB,ELITE SUPERMARKET PVT LTD 42,Customer - Channel,Bangalore,Karnataka,India,9853475162,https://elitesupermarket42.com,Retail,,Regional supermarket customer
+001a3003WNFtsSyAYJ,MODERN RETAIL PVT LTD 41,Customer - Channel,Pune,Maharashtra,India,9833652340,https://modernretail41.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNFpgJwAYJ,MODERN RETAIL PVT LTD 40,Customer - Channel,Jaipur,Rajasthan,India,9895761829,https://modernretail40.com,Retail,,Wholesale retail chain customer
+001a3003WNFlUAuAYN,ELITE BAZAAR PVT LTD 39,Customer - Channel,Kolkata,West Bengal,India,9876543210,https://elitebazaar39.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNFhI1sAYF,VALUE BAZAAR PVT LTD 38,Customer - Direct,Bangalore,Karnataka,India,9825291624,https://valuebazaar38.com,Retail,,Regional supermarket customer
+001a3003WNFd5sqAYB,ROYAL RETAIL PVT LTD 37,Customer - Channel,Pune,Maharashtra,India,9868944889,https://royalretail37.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNFYtjoAYD,SMART MART PVT LTD 36,Customer - Channel,Delhi,Delhi,India,9875772110,https://smartmart36.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNFUhamAYD,QUICK SUPERMARKET PVT LTD 35,Customer - Direct,Ahmedabad,Gujarat,India,9856049952,https://quicksupermarket35.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNFQVRkAYP,MODERN BAZAAR PVT LTD 34,Customer - Direct,Bangalore,Karnataka,India,9823713280,https://modernbazaar34.com,Retail,,Consumer electronics retail customer
+001a3003WNFMJIiAYP,VALUE MART PVT LTD 33,Customer - Channel,Chennai,Tamil Nadu,India,9868246074,https://valuemart33.com,Retail,,Fashion and lifestyle retail chain
+001a3003WNFI79gAYD,MODERN SUPERMARKET PVT LTD 32,Customer - Direct,Pune,Maharashtra,India,9828850027,https://modernsupermarket32.com,Retail,,Consumer electronics retail customer
+001a3003WNFDv0eAYD,METRO SHOP PVT LTD 31,Customer - Direct,Ahmedabad,Gujarat,India,9833653258,https://metroshop31.com,Retail,,Wholesale retail chain customer
+001a3003WNF9ircAYB,SMART TRADERS PVT LTD 30,Customer - Channel,Delhi,Delhi,India,9831871417,https://smarttraders30.com,Retail,,Wholesale retail chain customer
+001a3003WNF5WiaAYF,VALUE WHOLESALE PVT LTD 29,Customer - Direct,Chennai,Tamil Nadu,India,9851327957,https://valuewholesale29.com,Retail,,Wholesale retail chain customer
+001a3003WNF1KZYAY3,PRIME ENTERPRISES PVT LTD 28,Customer - Direct,Delhi,Delhi,India,9897647043,https://primeenterprises28.com,Retail,,Regional supermarket customer
+001a3003WNEx8QWAYZ,SMART RETAIL PVT LTD 27,Customer - Channel,Kolkata,West Bengal,India,9868198735,https://smartretail27.com,Retail,,Wholesale retail chain customer
+001a3003WNEswHUAYZ,FRESH SUPERMARKET PVT LTD 26,Customer - Channel,Chennai,Tamil Nadu,India,9857767271,https://freshsupermarket26.com,Retail,,Consumer electronics retail customer
+001a3003WNEok8SAYR,URBAN WHOLESALE PVT LTD 25,Customer - Channel,Hyderabad,Telangana,India,9844608320,https://urbanwholesale25.com,Retail,,Fashion and lifestyle retail chain
+001a3003WNEkXzQAYV,MEGA STORES PVT LTD 24,Customer - Direct,Pune,Maharashtra,India,9875057389,https://megastores24.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNEgLqOAYV,MODERN OUTLET PVT LTD 23,Customer - Direct,Mumbai,Maharashtra,India,9888771993,https://modernoutlet23.com,Retail,,Fashion and lifestyle retail chain
+001a3003WNEc9hMAYR,ELITE ENTERPRISES PVT LTD 22,Customer - Channel,Lucknow,Uttar Pradesh,India,9850978828,https://eliteenterprises22.com,Retail,,Wholesale retail chain customer
+001a3003WNEXxYKAY1,METRO ENTERPRISES PVT LTD 21,Customer - Channel,Jaipur,Rajasthan,India,9819455949,https://metroenterprises21.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNETlPIAY1,GLOBAL MART PVT LTD 20,Customer - Direct,Kolkata,West Bengal,India,9815106432,https://globalmart20.com,Retail,,Regional supermarket customer
+001a3003WNEPZGGAY5,ELITE WHOLESALE PVT LTD 19,Customer - Channel,Lucknow,Uttar Pradesh,India,9875597544,https://elitewholesale19.com,Retail,,Wholesale retail chain customer
+001a3003WNELN7EAYX,METRO STORES PVT LTD 18,Customer - Channel,Kolkata,West Bengal,India,9829926296,https://metrostores18.com,Retail,,Consumer electronics retail customer
+001a3003WNEHAyCAYX,GLOBAL ENTERPRISES PVT LTD 17,Customer - Direct,Mumbai,Maharashtra,India,9850199855,https://globalenterprises17.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNECypAAYT,URBAN MART PVT LTD 16,Customer - Direct,Chennai,Tamil Nadu,India,9854567341,https://urbanmart16.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNE8mg8AYB,GLOBAL ENTERPRISES PVT LTD 15,Customer - Direct,Jaipur,Rajasthan,India,9830089874,https://globalenterprises15.com,Retail,,Fashion and lifestyle retail chain
+001a3003WNE4aX6AYJ,FRESH MART PVT LTD 14,Customer - Direct,Ahmedabad,Gujarat,India,9886774871,https://freshmart14.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNE0OO4AYN,GLOBAL RETAIL PVT LTD 13,Customer - Direct,Delhi,Delhi,India,9869818228,https://globalretail13.com,Retail,,Consumer electronics retail customer
+001a3003WNDwCF2AYN,METRO SHOP PVT LTD 12,Customer - Channel,Chennai,Tamil Nadu,India,9811259492,https://metroshop12.com,Retail,,Consumer electronics retail customer
+001a3003WNDs060AYB,VALUE MART PVT LTD 11,Customer - Direct,Mumbai,Maharashtra,India,9822561061,https://valuemart11.com,Retail,,Wholesale retail chain customer
+001a3003WNDnnwyAYB,FRESH BAZAAR PVT LTD 10,Customer - Channel,Mumbai,Maharashtra,India,9877856835,https://freshbazaar10.com,Retail,,Regional supermarket customer
+001a3003WNDjbnwAYB,FRESH BAZAAR PVT LTD 9,Customer - Direct,Hyderabad,Telangana,India,9850386097,https://freshbazaar9.com,Retail,,Regional supermarket customer
+001a3003WNDfPeuAYF,METRO BAZAAR PVT LTD 8,Customer - Direct,Kolkata,West Bengal,India,9888396125,https://metrobazaar8.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNDbDVsAYN,PRIME MART PVT LTD 7,Customer - Channel,Lucknow,Uttar Pradesh,India,9881607285,https://primemart7.com,Retail,,Fashion and lifestyle retail chain
+001a3003WNDX1MqAYL,SMART OUTLET PVT LTD 6,Customer - Channel,Jaipur,Rajasthan,India,9879563375,https://smartoutlet6.com,Retail,,Regional supermarket customer
+001a3003WNDSpDoAYL,GLOBAL TRADERS PVT LTD 5,Customer - Direct,Chennai,Tamil Nadu,India,9872633574,https://globaltraders5.com,Retail,,Regional supermarket customer
+001a3003WNDOd4mAYD,FRESH STORES PVT LTD 4,Customer - Channel,Kolkata,West Bengal,India,9888096624,https://freshstores4.com,Retail,,Wholesale retail chain customer
+001a3003WNDKQvkAYH,SMART BAZAAR PVT LTD 3,Customer - Direct,Hyderabad,Telangana,India,9820645605,https://smartbazaar3.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNDGEmiAYH,VALUE ENTERPRISES PVT LTD 2,Customer - Channel,Pune,Maharashtra,India,9863218097,https://valueenterprises2.com,Retail,,Retail customer for Databricks retail demo
+001a3003WNDC2dgAYD,ROYAL BAZAAR PVT LTD 1,Customer - Channel,Pune,Maharashtra,India,9877379514,https://royalbazaar1.com,Retail,,Consumer electronics retail customer

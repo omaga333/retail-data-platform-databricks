@@ -1,13 +1,120 @@
 # Building a Smart Retail Data Platform Using Medallion Architecture on Databricks
 
-
-# Section One: Comprehensive Sequential Project Documentation
-
-Below is the comprehensive, sequential documentation of the project. All sections have been merged in a logical order that illustrates the architecture, the data ingestion strategy, transformation processes, and best practices, making it ready for use as a professional reference or as part of your portfolio.
-
 ## 1. Project Overview (Executive Summary)
 
 This project aims to build a comprehensive, automated, and scalable data pipeline using the **Databricks** platform. The project relies on the **Medallion Architecture (Bronze, Silver, Gold)** to ingest data from multiple, diverse sources (databases, CRM systems, and cloud files), then clean it, standardize it, and apply Data Quality rules to it, so that it becomes ready for advanced analytics and insight extraction in the Gold layer.
+
+
+## 🏗️ 2. Data Architecture (Medallion Architecture)
+
+The data flow was divided into three main layers to ensure data quality and progression:
+
+
++┌──────────────────────────────────────────────────────────────┐
++│                      DATA SOURCES                            │
++├──────────────────────────────────────────────────────────────┤
++│  PostgreSQL  │  Salesforce  │  Azure Blob Storage           │
++└───────┬──────┴──────┬───────┴────────┬──────────────────────┘
++        │             │                 │
++        v             v                 v
++┌──────────────────────────────────────────────────────────────┐
++│                   BRONZE LAYER                                │
++│  - Raw data ingestion via Lakeflow Connect                   │
++│  - SCD Type 2 for Salesforce objects                         │
++│  - Auto Loader for Blob Storage                              │
++└────────────────────────────┬─────────────────────────────────┘
++                             │
++                             v
++┌──────────────────────────────────────────────────────────────┐
++│                   SILVER LAYER                                │
++│  - Data quality checks & expectations                         │
++│  - Standardization & cleansing                                │
++│  - Business logic transformations                             │
++└────────────────────────────┬─────────────────────────────────┘
++                             │
++                             v
++┌──────────────────────────────────────────────────────────────┐
++│                   GOLD LAYER                                  │
++│  - Business-ready views (dim_customer, dim_product, etc.)    │
++│  - Aggregated fact tables                                     │
++│  - Calendar dimension                                          │
++└────────────────────────────┬─────────────────────────────────┘
++                             │
++                             v
++┌──────────────────────────────────────────────────────────────┐
++│                 SEMANTIC LAYER                                │
++│  - Genie-ready metric views                                   │
++│  - Unified business definitions                               │
++└──────────────────────────────────────────────────────────────┘
+
+
+### A. Extraction Layer (Bronze Layer - Raw Data)
+
+* **Goal:** Receiving raw data from sources exactly as it is, without modification.
+* **Sources and Ingestion Mechanisms:**
+1. **Postgres Database:** Pulled using a ready-made Pipeline (LakeFlow Connect).
+2. **Salesforce System (Accounts and Opportunities data):** Pulled as streaming data.
+3. **CSV Files (Transactions data):** Stored in Blob Storage and pulled using **Auto Loader** technology to handle Incremental Data.
+
+---
++## 📁 Project Structure
++
++```
++retail-data-platform-databricks/
++│
++├── databricks.yml              # Main bundle configuration
++├── .gitignore
++├── README.md
++├── LICENSE
++├── requirements.txt
++│
++├── resources/                  # Bundle resource definitions
++│   ├── jobs/
++│   │   └── retail_job.yml
++│   │
++│   ├── pipelines/
++│   │   ├── postgres_ingestion.yml
++│   │   ├── salesforce_ingestion.yml
++│   │   └── retail_transformation.yml
++│   │
++│   ├── dashboards/
++│   │   └── executive_retail_analytics.md
++│   │
++│   └── permissions/
++│       └── permissions.yml
++│
++├── src/                        # Source code
++│   ├── notebooks/
++│   │   ├── bronze/
++│   │   │   └── blob_to_bronze.py
++│   │   ├── silver/
++│   │   ├── gold/
++│   │   │   ├── gold_views.sql
++│   │   │   └── calendar.sql
++│   │   ├── semantic/
++│   │   │   └── retail_metrics.sql
++│   │   └── dashboard/
++│   │
++│   ├── pipelines/
++│   │   ├── bronze_to_silver/
++│   │   │   ├── product_catalog.py
++│   │   │   ├── inventory.py
++│   │   │   ├── account.py
++│   │   │   └── opportunity.py
++│   │   └── silver_to_gold/
++│   │       └── fact_sales.py
++│   │
++│   ├── sql/
++│   ├── python/
++│   └── utils/
++│
++├── tests/                      # Test suites
++│
++└── docs/                       # Documentation
++    ├── Architecture.md
++    ├── Deployment.md
++    ├── Troubleshooting.md
++    └── Dashboard_Recreation.md
 
 ---
 
@@ -21,109 +128,10 @@ The latest technologies in the cloud environment were adopted to ensure efficien
 * **Transformation Framework:** LakeFlow Spark Declarative Pipelines / Delta Live Tables (DLT).
 * **Data Ingestion Tools:** Databricks LakeFlow Connect & Auto Loader (`cloudFiles`).
 
----
-
-## 3. Data Ingestion Strategy and the Bronze Layer (Data Ingestion & Bronze Layer)
-
-The **Bronze** layer represents the raw data exactly as it comes from the source, while retaining the history of modifications to ensure no data is lost. To ensure efficient data transfer, a **Hybrid Ingestion Strategy** was adopted, relying on two main tools depending on the nature of the source:
-
-### A. Ingestion via LakeFlow Connect (for structured sources)
-
-**LakeFlow Connect** was used as the primary connection tool to pull data from databases and CRM systems, given its support for Native Connectors and its ability to automatically capture incremental changes (CDC).
-
-* **Database Management System (PostgreSQL):** `product_catalog`, `inventory` tables.
-* **Customer Relationship Management System (Salesforce):** `account`, `opportunity` tables (containing data in `PascalCase` format and many unused columns).
-
-### B. Ingestion via Auto Loader (for unstructured files)
-
-Since LakeFlow Connect is not designed to handle open folders and files, the **Auto Loader** engine was used to ingest cloud files.
-
-* **Source:** Cloud Storage (Blob Storage) - `transactions` table (CSV files).
-* **Mechanism:** A Managed Volume was set up inside Unity Catalog to link the files. Auto Loader monitors the file path and reads new data incrementally (Incremental Load) using `Checkpoints`.
-* **Flexibility:** `Schema Location` was used to detect any future changes in file structure, and the `_rescued_data` feature was enabled to isolate corrupted records without stopping the system.
-
----
-
-## 4. The Cleansed Data Layer and Transformation Processes (Silver Layer Transformations)
-
-The **Silver** layer represents the "unified and trusted version" of the data. This layer was built entirely using **LakeFlow Spark Declarative Pipelines (DLT)**.
-
-LakeFlow automates infrastructure management, automatically manages Dependencies between tables, and applies built-in data quality rules. The following operations were implemented:
-
-### Table-by-Table Specifications:
-
-#### 4.1. Product Catalog Table (`product_catalog`)
-
-* **Data Quality (DQ) Rules:** Product number and name must not be Null (`expect_or_drop`). Price must be > 0 (`expect`).
-* **Transformations:**
-* Text cleaning (`trim`, `initcap`).
-* Filling empty values in `category`, `subcategory`, `brand` with `'Unknown'`.
-* Rounding the price to two decimal places (`round`).
-* Deriving the `is_active` column for active records based on `end_date` (applying SCD Type 2 logic).
-
-#### 4.2. Inventory Table (`inventory`)
-
-* **Data Quality (DQ) Rules:** Stock must be positive. Identifiers (`store_id`, `product_id`) must be present.
-* **Transformations (Business Logic):**
-* Adding a derived column `inventory_status`: if the quantity (`stock_quantity`) is less than the reorder level (`reorder_level`), it is marked as `"Low Stock"`, otherwise `"Healthy Stock"`.
-
-#### 4.3. Account Table (`account`)
-
-* **Transformations:**
-* **Column Pruning:** Excluding unused default columns coming from Salesforce to reduce table size and speed up queries.
-* Standardizing column names from `PascalCase` to `snake_case` (such as converting `Name` to `customer_name`).
-* Deriving the `is_active` column to handle historical changes.
-
-#### 4.4. Opportunity Table (`opportunity`)
-
-* **Data Quality (DQ) Rules:** `probability` between 0 and 100. `stage` must be within a predefined list.
-* **Transformations (Business Logic):**
-* Adding a `deal_size` column to classify deals into: `"Enterprise"`, `"Mid-market"`, `"Small"` based on the deal value (`amount`).
-
-#### 4.5. Transactions Table (`transactions`)
-
-* **Data Quality (DQ) Rules:** `transaction_id` and `product_id` must not be Null. Quantity and price must be positive values. `payment_mode` must be within allowed values.
-* **Transformations:**
-* **Type Casting:** Converting quantity and price columns from `String` to `Integer`.
-* **Timestamp Handling:** Converting the `transaction_timestamp` column from a complex string into a real `Timestamp` via `to_timestamp`.
-* Adding a calculated column `gross_amount` (quantity × price).
-
-
-## 5. Applied Engineering Best Practices
-
-1. **Automatic Incremental Loading:** By using `readStream` with DLT and Auto Loader, the system processes only new data with high efficiency, saving compute cost and resources.
-2. **Declarative Programming:** Focusing on describing the desired shape of the data, and leaving infrastructure complexities and task scheduling to the LakeFlow engine.
-3. **Fault Tolerance:** The system does not collapse when faced with faulty data; instead, it drops it (Drop), allows it through with a warning (Expect), or isolates it in the rescue column (`_rescued_data`).
-4. **Schema Evolution:** The system is able to accommodate any new columns added to the files in the future thanks to enabling schema merging features.
-5. **Pruning & Clustering:** Dropping unnecessary columns and using `cluster_by` to physically organize the data and speed up queries for the Gold layer.
-
----
-
-# Section Two: Comprehensive Technical Design Document
-
-This is a comprehensive Technical Documentation, professionally designed to be ready for use in your portfolio or as a `README.md` file on GitHub. The document reflects your skills as a Junior AI Data Engineer in Cairo focused on building integrated data platforms using Python and PySpark, and applying deep DataOps concepts to understand "the machine from the inside" rather than just writing surface-level code.
-
-## 📌 1. Project Overview
 
 This project was designed to build an integrated End-to-End Cloud Data Platform based on the Medallion Architecture within the **Databricks** environment. The project aims to integrate sales and transaction data from multiple sources, clean it, model it, and make it ready for natural language queries using AI technologies (Databricks Genie AI).
 
-* **Core Tech Stack:** Python, PySpark, Delta Lake, Databricks Pipelines (DLT), Databricks SQL, Databricks Genie, YAML.
-* **Modeling Approach (Data Modeling):** Star Schema.
-* **Orchestration:** Databricks Jobs.
-
 ---
-
-## 🏗️ 2. Data Architecture (Medallion Architecture)
-
-The data flow was divided into three main layers to ensure data quality and progression:
-
-### A. Extraction Layer (Bronze Layer - Raw Data)
-
-* **Goal:** Receiving raw data from sources exactly as it is, without modification.
-* **Sources and Ingestion Mechanisms:**
-1. **Postgres Database:** Pulled using a ready-made Pipeline (LakeFlow Connect).
-2. **Salesforce System (Accounts and Opportunities data):** Pulled as streaming data.
-3. **CSV Files (Transactions data):** Stored in Blob Storage and pulled using **Auto Loader** technology to handle Incremental Data.
 
 ### B. Cleansing and Standardization Layer (Silver Layer - Cleansed Data)
 

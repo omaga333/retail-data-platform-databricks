@@ -1,0 +1,52 @@
+# Retail Data Platform - Databricks Asset Bundle
+# Version Information
+
+VERSION=1.0.0
+BUILD_DATE=2026-07-02
+STATUS=READY_FOR_DEPLOYMENT
+
+## Release Notes
+
+### Version 1.0.0 (Initial Release)
+
+**Features:**
+- Complete Databricks Asset Bundle structure
+- Medallion Architecture (Bronze → Silver → Gold → Semantic)
+- Multi-source ingestion (PostgreSQL, Salesforce, Azure Blob Storage)
+- DLT transformation pipelines with data quality expectations
+- Production-ready configuration with dev/test/prod deployment targets
+- Comprehensive documentation
+  - Architecture documentation
+  - Deployment guide
+  - Troubleshooting guide
+  - Dashboard recreation guide
+
+**Components:**
+- databricks.yml - Main bundle configuration
+- src/pipelines/ - DLT Python transformations (4 files)
+- src/notebooks/ - Bronze/Gold/Semantic layer notebooks
+- resources/ - Job and pipeline configuration definitions
+- docs/ - Complete technical documentation (4 guides)
+- requirements.txt - Python dependencies
+- .gitignore - Git ignore patterns
+- LICENSE - MIT License
+
+**Pipelines:**
+1. PostgreSQL Ingestion → retail_project.postgress_bronze
+2. Salesforce Ingestion → retail_project.salesforce (SCD Type 2)
+3. Blob Storage Ingestion → retail_project.blob_storge
+4. DLT Transformation → Bronze → Silver → Gold layers
+
+**Deployment:**
+```bash
+databricks bundle validate -t dev
+databricks bundle deploy -t dev
+databricks bundle run retail_job -t dev
+```
+
+**Known Issues:**
+- Salesforce OAuth connection requires re-authentication (see Troubleshooting guide)
+- Lakeview Dashboards must be recreated manually (see Dashboard_Recreation.md)
+
+**Repository:**
+https://github.com/omaga333/retail-data-platform-databricks

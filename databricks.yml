@@ -1,0 +1,173 @@
+# Databricks Asset Bundle Configuration
+# Retail Data Platform - Production-Ready Bundle
+
+bundle:
+  name: retail-data-platform
+
+include:
+  - resources/**/*.yml
+
+variables:
+  catalog:
+    description: Unity Catalog name
+    default: retail_project
+  
+  postgres_schema:
+    description: PostgreSQL bronze schema
+    default: postgress_bronze
+  
+  salesforce_schema:
+    description: Salesforce bronze schema
+    default: salesforce
+  
+  silver_schema:
+    description: Silver layer schema
+    default: retail_silver
+  
+  gold_schema:
+    description: Gold layer schema
+    default: retail_gold
+  
+  semantic_schema:
+    description: Semantic layer schema
+    default: retail_semantic
+  
+  notification_email:
+    description: Email address for job notifications
+    default: aajahhs712@gmail.com
+
+targets:
+  # Development Environment
+  dev:
+    mode: development
+    default: true
+    
+    variables:
+      catalog: retail_project_dev
+      postgres_schema: postgress_bronze_dev
+      salesforce_schema: salesforce_dev
+      silver_schema: retail_silver_dev
+      gold_schema: retail_gold_dev
+      semantic_schema: retail_semantic_dev
+    
+    run_as:
+      user_name: ${workspace.current_user.userName}
+
+  # Test Environment
+  test:
+    mode: development
+    
+    variables:
+      catalog: retail_project_test
+      postgres_schema: postgress_bronze_test
+      salesforce_schema: salesforce_test
+      silver_schema: retail_silver_test
+      gold_schema: retail_gold_test
+      semantic_schema: retail_semantic_test
+    
+    run_as:
+      service_principal_name: ${var.sp_test}
+
+  # Production Environment
+  prod:
+    mode: production
+    workspace:
+      root_path: /Workspace/Shared/.bundle/retail-data-platform/prod
+    
+    variables:
+      catalog: retail_project
+      postgres_schema: postgress_bronze
+      salesforce_schema: salesforce
+      silver_schema: retail_silver
+      gold_schema: retail_gold
+      semantic_schema: retail_semantic
+    
+    run_as:
+      service_principal_name: ${var.sp_prod}
+    
+    permissions:
+      - level: CAN_MANAGE
+        group_name: data_engineering_team
+      
+      - level: CAN_VIEW
+        group_name: data_analysts
+
+# Resource definitions (imported from resources/*.yml)
+resources:
+  jobs:
+    retail_job:
+      name: "[${bundle.target}] Retail Data Pipeline"
+      
+      tasks:
+        - task_key: postgres_to_bronze
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.postgres_ingestion.id}
+        
+        - task_key: salesforce_to_bronze
+          depends_on:
+            - task_key: postgres_to_bronze
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.salesforce_ingestion.id}
+        
+        - task_key: blob_to_bronze
+          depends_on:
+            - task_key: salesforce_to_bronze
+          run_if: AT_LEAST_ONE_FAILED
+          notebook_task:
+            notebook_path: ${workspace.file_path}/src/notebooks/bronze/blob_to_bronze
+            source: WORKSPACE
+        
+        - task_key: silver_and_gold
+          depends_on:
+            - task_key: blob_to_bronze
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.retail_transformation.id}
+      
+      email_notifications:
+        on_failure:
+          - ${var.notification_email}
+      
+      schedule:
+        quartz_cron_expression: "0 0 2 * * ?"  # Daily at 2 AM
+        timezone_id: "America/Los_Angeles"
+        pause_status: PAUSED
+
+  pipelines:
+    # PostgreSQL Ingestion Pipeline
+    postgres_ingestion:
+      name: "[${bundle.target}] PostgreSQL to Bronze"
+      catalog: ${var.catalog}
+      target: ${var.postgres_schema}
+      channel: PREVIEW
+      configuration:
+        pipeline_type: MANAGED_INGESTION
+      serverless: true
+    
+    # Salesforce Ingestion Pipeline  
+    salesforce_ingestion:
+      name: "[${bundle.target}] Salesforce to Bronze"
+      catalog: ${var.catalog}
+      target: ${var.salesforce_schema}
+      channel: CURRENT
+      configuration:
+        pipeline_type: MANAGED_INGESTION
+      serverless: true
+    
+    # DLT Transformation Pipeline
+    retail_transformation:
+      name: "[${bundle.target}] Retail Transformation"
+      catalog: ${var.catalog}
+      target: ${var.silver_schema}
+      channel: CURRENT
+      photon: true
+      serverless: true
+      
+      libraries:
+        - glob:
+            include: ${workspace.file_path}/src/pipelines/bronze_to_silver/**
+        - glob:
+            include: ${workspace.file_path}/src/pipelines/silver_to_gold/**
+      
+      configuration:
+        spark.databricks.delta.properties.defaults.autoOptimize.optimizeWrite: "true"
+        spark.databricks.delta.properties.defaults.autoOptimize.autoCompact: "true"

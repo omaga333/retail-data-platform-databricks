@@ -187,21 +187,10 @@ Your bundle includes comprehensive documentation:
 
    Test:      databricks bundle deploy --target test
    Prod:      databricks bundle deploy --target prod
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🌟 NEED HELP?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
    • Databricks Asset Bundles Docs: https://docs.databricks.com/dev-tools/bundles/
    • CLI Installation Guide: https://docs.databricks.com/dev-tools/cli/
    • DLT Documentation: https://docs.databricks.com/delta-live-tables/
-
-════════════════════════════════════════════════════════════════════════════
-
-🎊 Your bundle is production-ready and waiting for deployment!
-
-Repository: https://github.com/omaga333/retail-data-platform-databricks
-Location: /Repos/aajahhs712@gmail.com/retail-data-platform-databricks
 
 ════════════════════════════════════════════════════════════════════════════

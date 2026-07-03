@@ -1,0 +1,207 @@
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║           🚀 RETAIL DATA PLATFORM - DEPLOYMENT GUIDE 🚀                   ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+Your Databricks Asset Bundle is validated and ready to deploy!
+
+However, deployment commands require elevated CLI permissions that are not 
+available in the serverless notebook environment. You have 3 deployment options:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 OPTION 1: DEPLOY FROM DATABRICKS WORKSPACE TERMINAL (RECOMMENDED)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+If your workspace has terminal access:
+
+1. Click "Compute" in left sidebar → Select a cluster → Click "Web Terminal"
+   
+2. Navigate to bundle directory:
+   cd /Workspace/Users/aajahhs712@gmail.com/Repos/aajahhs712@gmail.com/retail-data-platform-databricks
+
+3. Deploy:
+   databricks bundle deploy --target dev
+
+4. Monitor output for any errors
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 OPTION 2: DEPLOY FROM LOCAL MACHINE (MOST COMMON)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1: Install Databricks CLI
+-------------------------------
+macOS/Linux:
+   curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+Windows:
+   Download from: https://github.com/databricks/cli/releases
+
+Or use pip:
+   pip install databricks-cli
+
+Step 2: Authenticate
+--------------------
+   databricks configure --token
+
+Enter when prompted:
+   • Host: https://dbc-88f220e5-c8f1.cloud.databricks.com
+   • Token: Generate from User Settings → Access Tokens
+
+Step 3: Clone Repository
+-------------------------
+   git clone https://github.com/omaga333/retail-data-platform-databricks.git
+   cd retail-data-platform-databricks
+
+Step 4: Deploy
+--------------
+   databricks bundle deploy --target dev
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 OPTION 3: CI/CD PIPELINE DEPLOYMENT (PRODUCTION-READY)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For automated deployments, add to your GitHub Actions workflow:
+
+```yaml
+name: Deploy Databricks Bundle
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+      
+      - name: Deploy to Dev
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          databricks bundle deploy --target dev
+```
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ AFTER DEPLOYMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ✅ Verify Resources Created:
+   • Workflows → Jobs → [dev] Retail Data Pipeline
+   • Data Intelligence → Pipelines (3 pipelines)
+
+2. ⚠️  FIX SALESFORCE OAUTH (CRITICAL):
+   • Navigate: Catalog → Connections → sales_retail
+   • Click: Edit → Authenticate
+   • Login to Salesforce and authorize
+   • Save connection
+
+3. 🚀 Run Your Pipeline:
+   databricks bundle run retail_job --target dev
+
+4. 📊 Monitor Execution:
+   • Job runs: Workflows → Jobs → [dev] Retail Data Pipeline
+   • Pipeline: Data Intelligence → Pipelines → [dev] Retail Transformation
+   • Data: Catalog Explorer → retail_project_dev
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 WHAT WILL BE DEPLOYED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Pipelines (3):
+   ✓ [dev] PostgreSQL to Bronze - Managed ingestion from PostgreSQL
+   ✓ [dev] Salesforce to Bronze - Managed ingestion from Salesforce
+   ✓ [dev] Retail Transformation - DLT transformations (Bronze→Silver→Gold)
+
+Job (1):
+   ✓ [dev] Retail Data Pipeline
+     • Task 1: postgres_to_bronze
+     • Task 2: salesforce_to_bronze (depends on Task 1)
+     • Task 3: blob_to_bronze (depends on Task 2)
+     • Task 4: silver_and_gold (depends on Task 3)
+     • Schedule: Daily at 2 AM PST (PAUSED by default)
+     • Notifications: aajahhs712@gmail.com
+
+Unity Catalog:
+   ✓ Catalog: retail_project_dev
+   ✓ Schemas: 
+     - postgress_bronze_dev (PostgreSQL data)
+     - salesforce_dev (Salesforce data)
+     - retail_silver_dev (Curated data)
+     - retail_gold_dev (Aggregated metrics)
+     - retail_semantic_dev (Business views)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔧 TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Issue: "Error: failed to authenticate"
+Fix: Run 'databricks configure --token' and ensure correct host and token
+
+Issue: "Error: cannot find bundle root"
+Fix: Navigate to /Repos/.../retail-data-platform-databricks directory
+
+Issue: "Pipeline fails with OAuth error"
+Fix: See Salesforce OAuth fix above (step 2 in After Deployment)
+
+Issue: "Permission denied"
+Fix: Ensure you have CREATE privileges on Unity Catalog
+
+Full troubleshooting guide: docs/Troubleshooting.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📖 DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your bundle includes comprehensive documentation:
+
+   • README.md - Project overview & quick start
+   • docs/Architecture.md - System design & data flow
+   • docs/Deployment.md - Detailed deployment procedures
+   • docs/Troubleshooting.md - Common issues & solutions
+   • docs/Dashboard_Recreation.md - Dashboard rebuild guide
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 QUICK REFERENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   Validate:  databricks bundle validate --target dev
+   Deploy:    databricks bundle deploy --target dev
+   Run:       databricks bundle run retail_job --target dev
+   Destroy:   databricks bundle destroy --target dev
+
+   Test:      databricks bundle deploy --target test
+   Prod:      databricks bundle deploy --target prod
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌟 NEED HELP?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   • Databricks Asset Bundles Docs: https://docs.databricks.com/dev-tools/bundles/
+   • CLI Installation Guide: https://docs.databricks.com/dev-tools/cli/
+   • DLT Documentation: https://docs.databricks.com/delta-live-tables/
+
+════════════════════════════════════════════════════════════════════════════
+
+🎊 Your bundle is production-ready and waiting for deployment!
+
+Repository: https://github.com/omaga333/retail-data-platform-databricks
+Location: /Repos/aajahhs712@gmail.com/retail-data-platform-databricks
+
+════════════════════════════════════════════════════════════════════════════

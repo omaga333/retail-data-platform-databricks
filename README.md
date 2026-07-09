@@ -9,74 +9,8 @@ This project aims to build a comprehensive, automated, and scalable data pipelin
 =
 ![Architecture](src/images/Arc.png)
 
-### A. Extraction Layer (Bronze Layer - Raw Data)
-
-* **Goal:** Receiving raw data from sources exactly as it is, without modification.
-* **Sources and Ingestion Mechanisms:**
-1. **Postgres Database:** Pulled using a ready-made Pipeline (LakeFlow Connect).
-2. **Salesforce System (Accounts and Opportunities data):** Pulled as streaming data.
-3. **CSV Files (Transactions data):** Stored in Blob Storage and pulled using **Auto Loader** technology to handle Incremental Data.
-<img width="1531" height="778" alt="image" src="https://github.com/user-attachments/assets/32408d25-68fb-493f-9a1e-962f6e1e4edb" />
-
 ---
-+## 📁 Project Structure
-+
-+```
-+retail-data-platform-databricks/
-+│
-+├── databricks.yml              # Main bundle configuration
-+├── .gitignore
-+├── README.md
-+├── LICENSE
-+├── requirements.txt
-+│
-+├── resources/                  # Bundle resource definitions
-+│   ├── jobs/
-+│   │   └── retail_job.yml
-+│   │
-+│   ├── pipelines/
-+│   │   ├── postgres_ingestion.yml
-+│   │   ├── salesforce_ingestion.yml
-+│   │   └── retail_transformation.yml
-+│   │
-+│   ├── dashboards/
-+│   │   └── executive_retail_analytics.md
-+│   │
-+│   └── permissions/
-+│       └── permissions.yml
-+│
-+├── src/                        # Source code
-+│   ├── notebooks/
-+│   │   ├── bronze/
-+│   │   │   └── blob_to_bronze.py
-+│   │   ├── silver/
-+│   │   ├── gold/
-+│   │   │   ├── gold_views.sql
-+│   │   │   └── calendar.sql
-+│   │   ├── semantic/
-+│   │   │   └── retail_metrics.sql
-+│   │   └── dashboard/
-+│   │
-+│   ├── pipelines/
-+│   │   ├── bronze_to_silver/
-+│   │   │   ├── product_catalog.py
-+│   │   │   ├── inventory.py
-+│   │   │   ├── account.py
-+│   │   │   └── opportunity.py
-+│   │   └── silver_to_gold/
-+│   │       └── fact_sales.py
-+│   │
-+│   ├── sql/
-+│   ├── python/
-+│   └── utils/
-+│
-+├── tests/                      # Test suites
-+│
-+└── docs/                       # Documentation
-+    ├── Architecture.md
-+    ├── Deployment.md
-+    ├── Troubleshooting.md
-+    └── Dashboard_Recreation.md
+
 
 ---
 
@@ -94,6 +28,17 @@ The latest technologies in the cloud environment were adopted to ensure efficien
 This project was designed to build an integrated End-to-End Cloud Data Platform based on the Medallion Architecture within the **Databricks** environment. The project aims to integrate sales and transaction data from multiple sources, clean it, model it, and make it ready for natural language queries using AI technologies (Databricks Genie AI).
 
 ---
+### A. Extraction Layer (Bronze Layer - Raw Data)
+
+* **Goal:** Receiving raw data from sources exactly as it is, without modification.
+* **Sources and Ingestion Mechanisms:**
+1. **Postgres Database:** Pulled using a ready-made Pipeline (LakeFlow Connect).
+2. **Salesforce System (Accounts and Opportunities data):** Pulled as streaming data.
+3. **CSV Files (Transactions data):** Stored in Blob Storage and pulled using **Auto Loader** technology to handle Incremental Data.
+<img width="936" height="728" alt="image" src="https://github.com/user-attachments/assets/cb5c0076-2957-4d6b-b7f4-239f32daa44e" />
+![Uploading image.png…]()
+
+
 
 ### B. Cleansing and Standardization Layer (Silver Layer - Cleansed Data)
 
@@ -120,6 +65,7 @@ This project was designed to build an integrated End-to-End Cloud Data Platform 
 3. **`dim_calendar` Calendar Table (GenAI Generated):**
 * Fully generated using **Databricks Genie**.
 * Contains advanced SQL functions such as `explode(sequence(...))` to create a time sequence, and extracting complex business details (such as `is_weekend` and `is_last_day_of_month`).
+<img width="1531" height="778" alt="image" src="https://github.com/user-attachments/assets/980cb47d-3da4-4267-b1d7-3b1d6381fd7b" />
 
 ---
 

@@ -25,14 +25,38 @@ This project was designed to build an integrated End-to-End Cloud Data Platform 
 
 ---
 ### A. Extraction Layer (Bronze Layer - Raw Data)
-
-* **Goal:** Receiving raw data from sources exactly as it is, without modification.
-* **Sources and Ingestion Mechanisms:**
-1. **Postgres Database:** Pulled using a ready-made Pipeline (LakeFlow Connect).
-2. **Salesforce System (Accounts and Opportunities data):** Pulled as streaming data.
-3. **CSV Files (Transactions data):** Stored in Blob Storage and pulled using **Auto Loader** technology to handle Incremental Data.
+**A. PostgreSQL Database**
+- **Pipeline:** `postgres_ingestion`
+- **Connection:** `postgres_retail`
+- **Type:** Managed Ingestion (CDC or Query-based)
+- **Destination:** `retail_project.postgress_bronze`
+- **Tables:**
+  - `product_catalog` - Product master data
+  - `inventory` - Inventory levels and warehouse info
+  - Additional tables as configured
 <img width="936" height="728" alt="image" src="https://github.com/user-attachments/assets/cb5c0076-2957-4d6b-b7f4-239f32daa44e" />
+
+
+**B. Salesforce**
+- **Pipeline:** `salesforce_ingestion`
+- **Connection:** `sales_retail` (OAuth)
+- **Type:** Managed Ingestion with SCD Type 2
+- **Destination:** `retail_project.salesforce`
+- **Objects:**
+  - `Account` - Customer master (SCD Type 2 enabled)
+  - `Opportunity` - Sales opportunities
+  - Includes `__START_AT`, `__END_AT`, `__IS_CURRENT` columns for change tracking
 <img width="1019" height="760" alt="image" src="https://github.com/user-attachments/assets/d52781eb-dc2a-4faf-8c75-7ecc9117ffda" />
+
+**C. Azure Blob Storage**
+- **Pipeline:** `blob_to_bronze` notebook
+- **Type:** Auto Loader (Structured Streaming)
+- **Destination:** `retail_project.blob_storge.transactions`
+- **Format:** CSV files
+- **Features:**
+  - Schema inference and evolution
+  - Checkpoint-based exactly-once semantics
+<img width="1517" height="642" alt="image" src="https://github.com/user-attachments/assets/7f38dae6-0948-496b-9097-b4008130b262" />
 
 
 

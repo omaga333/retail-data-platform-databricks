@@ -6,47 +6,10 @@ This project aims to build a comprehensive, automated, and scalable data pipelin
 
 
 ## 🏗️ 2. Data Architecture (Medallion Architecture)
+src/images/Arc.png
 
-The data flow was divided into three main layers to ensure data quality and progression:
-
-
-+┌──────────────────────────────────────────────────────────────┐
-+│                      DATA SOURCES                            │
-+├──────────────────────────────────────────────────────────────┤
-+│  PostgreSQL  │  Salesforce  │  Azure Blob Storage           │
-+└───────┬──────┴──────┬───────┴────────┬──────────────────────┘
-+        │             │                 │
-+        v             v                 v
-+┌──────────────────────────────────────────────────────────────┐
-+│                   BRONZE LAYER                                │
-+│  - Raw data ingestion via Lakeflow Connect                   │
-+│  - SCD Type 2 for Salesforce objects                         │
-+│  - Auto Loader for Blob Storage                              │
-+└────────────────────────────┬─────────────────────────────────┘
-+                             │
-+                             v
-+┌──────────────────────────────────────────────────────────────┐
-+│                   SILVER LAYER                                │
-+│  - Data quality checks & expectations                         │
-+│  - Standardization & cleansing                                │
-+│  - Business logic transformations                             │
-+└────────────────────────────┬─────────────────────────────────┘
-+                             │
-+                             v
-+┌──────────────────────────────────────────────────────────────┐
-+│                   GOLD LAYER                                  │
-+│  - Business-ready views (dim_customer, dim_product, etc.)    │
-+│  - Aggregated fact tables                                     │
-+│  - Calendar dimension                                          │
-+└────────────────────────────┬─────────────────────────────────┘
-+                             │
-+                             v
-+┌──────────────────────────────────────────────────────────────┐
-+│                 SEMANTIC LAYER                                │
-+│  - Genie-ready metric views                                   │
-+│  - Unified business definitions                               │
-+└──────────────────────────────────────────────────────────────┘
-
+![src/images/Arc.png
+]()
 
 ### A. Extraction Layer (Bronze Layer - Raw Data)
 

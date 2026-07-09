@@ -16,6 +16,7 @@ This project aims to build a comprehensive, automated, and scalable data pipelin
 1. **Postgres Database:** Pulled using a ready-made Pipeline (LakeFlow Connect).
 2. **Salesforce System (Accounts and Opportunities data):** Pulled as streaming data.
 3. **CSV Files (Transactions data):** Stored in Blob Storage and pulled using **Auto Loader** technology to handle Incremental Data.
+<img width="1531" height="778" alt="image" src="https://github.com/user-attachments/assets/32408d25-68fb-493f-9a1e-962f6e1e4edb" />
 
 ---
 +## 📁 Project Structure

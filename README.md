@@ -8,8 +8,7 @@ This project aims to build a comprehensive, automated, and scalable data pipelin
 ## 🏗️ 2. Data Architecture (Medallion Architecture)
 src/images/Arc.png
 
-![src/images/Arc.png
-]()
+![Architecture](src/images/Arc.png)
 
 ### A. Extraction Layer (Bronze Layer - Raw Data)
 

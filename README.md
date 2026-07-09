@@ -81,6 +81,7 @@ This project was designed to build an integrated End-to-End Cloud Data Platform 
 * **Measures:** Definitions of calculation formulas such as total revenue `SUM(amount)`, and the count of distinct customers `COUNT(DISTINCT customer_id)`. Formats were configured to display them as currency (USD) or as integers.
 * **Dimensions:** Defining descriptive columns while adding a **Synonyms** feature (such as linking the term `sale date` to `Transaction Date`) to make it easier for the AI engine to understand managers' questions.
 <img width="1024" height="574" alt="image" src="https://github.com/user-attachments/assets/1df5f987-9931-4e66-afdc-d28701a3b6e6" />
+<img width="1157" height="773" alt="image" src="https://github.com/user-attachments/assets/da1034d6-284c-43eb-9aed-50ea29acb2f5" />
 
 ---
 
